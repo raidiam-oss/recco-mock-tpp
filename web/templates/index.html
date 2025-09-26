@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <title>RECCo Mock TPP – Select Scopes</title>
+    <link rel="stylesheet" href="/static/css/recco.css">
+</head>
+<body>
+<header class="header">
+    <div class="brand">
+        <span class="logo" style="color:var(--primary)">
+            <img src="/static/images/logo.svg" alt="RECCo Logo">
+        </span>
+        <span class="badge">Mock TPP</span>
+    </div>
+    <div class="header-actions"><a class="btn btn-ghost" href="/index.html">Home</a></div>
+</header>
+
+<main class="container">
+    <div class="card">
+        <h1 class="page-title">Choose what to access</h1>
+        <p class="subtitle">Select the data you want this TPP to request from <strong>Your Energy Retailer</strong>.</p>
+
+        <div class="row">
+            <div class="col">
+                <h3 class="section">Data to be shared</h3>
+                <div class="checkbox-list">
+                    <label><input type="checkbox" checked disabled> Identity (required)</label>
+                    <label><input type="checkbox" id="opt-customer"> Customer data</label>
+                    <label><input type="checkbox" id="opt-energy"> Energy usage data</label>
+                </div>
+            </div>
+
+            <div class="col">
+                <h3 class="section">Scopes to be requested</h3>
+                <div class="copy-wrap">
+                    <button class="btn-mini" id="copyScopes" type="button">Copy</button>
+                    <pre class="code" id="scopesBox">[
+  "openid"
+]</pre>
+                </div>
+
+                <h3 class="section">Authorization request (FAPI 2.0)</h3>
+                <table class="table" id="paramTable">
+                    <colgroup><col style="width:42%"><col style="width:58%"></colgroup>
+                    <thead><tr><th>Param</th><th>Value</th></tr></thead>
+                    <tbody>
+                    <tr><td>response_type</td><td id="p_response_type">code id_token</td></tr>
+                    <tr><td>client_id</td><td id="p_client_id">—</td></tr>
+                    <tr><td>redirect_uri</td><td id="p_redirect_uri">—</td></tr>
+                    <tr><td>scope</td><td id="p_scope">openid</td></tr>
+                    <tr><td>code_challenge_method</td><td id="p_cc_method">S256</td></tr>
+                    <tr><td>code_challenge</td><td id="p_code_challenge">—</td></tr>
+                    <tr><td>state</td><td id="p_state">—</td></tr>
+                    <tr><td>nonce</td><td id="p_nonce">—</td></tr>
+                    </tbody>
+                </table>
+                <div style="display:flex;gap:12px;margin-top:8px;align-items:center">
+                    <button class="btn" id="copyUrl" type="button">Copy full URL</button>
+                    <span class="helper">Full OAuth redirect to Raidiam Connect</span>
+                </div>
+            </div>
+        </div>
+
+        <button class="btn" id="authorizeBtn" type="button">Authorize Access</button>
+    </div>
+</main>
+
+<div class="footer">RECCo TPP Demo</div>
+
+<script src="/static/js/index.js"></script>
+</body>
+</html>

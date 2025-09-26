@@ -1,0 +1,25 @@
+version: 2
+updates:
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    groups:
+      gh-action-patch:
+        update-types: ["patch"]
+      gh-action-minor:
+        update-types: ["minor"]
+      gh-action-major:
+        update-types: ["major"]
+  - package-ecosystem: gomod
+    directory: "/"
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 10
+    groups:
+      go-patch:
+        update-types: ["patch"]
+      go-minor:
+        update-types: ["minor"]
+      go-major:
+        update-types: ["major"]

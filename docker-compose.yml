@@ -1,0 +1,17 @@
+services:
+  tpp-service:
+    build:
+      context: .
+      target: tpp-service
+    container_name: recco-mock-tpp
+    ports:
+      - "8443:8443"
+
+    volumes:
+      - ./certs:/run/mtls:ro
+      - ./devcerts:/run/devcerts:ro
+
+    environment:
+      SIGNING_KEY_ID: "${SIGNING_KEY_ID}"
+
+    restart: unless-stopped

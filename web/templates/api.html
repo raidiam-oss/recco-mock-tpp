@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <title>RECCo Mock TPP – Results</title>
+    <link rel="stylesheet" href="/static/css/recco.css">
+</head>
+<body>
+<header class="header">
+    <div class="brand">
+        <span class="logo" style="color:var(--primary)">
+            <img src="/static/images/logo.svg" alt="RECCo Logo">
+        </span>
+        <span class="badge">Mock TPP</span>
+    </div>
+    <div class="header-actions"><a class="btn btn-ghost" href="/index.html">Home</a></div>
+</header>
+
+<main class="container">
+    <div class="card">
+        <h1 class="page-title">Relying Party Sample App</h1>
+        <p class="subtitle">Access granted via <strong>Raidiam Connect</strong>.</p>
+
+        <div class="row" style="margin-bottom:8px">
+            <label for="providerSel" class="small">Provider</label>
+            <select id="providerSel" class="select" aria-label="Select provider"></select>
+            <span class="helper">
+                Pick a specific provider to fetch data from.
+                <abbr
+                    title="Providers will only appear here if they are authorization servers registered at the directory with both the Energy and Customer APIs registered."
+                > ⓘ</abbr>
+            </span>
+        </div>
+
+        <h3 class="section">GET Endpoints</h3>
+        <div class="row" style="margin-bottom:8px">
+            <button class="btn" id="btnCustomer">GET /customer</button>
+            <button class="btn" id="btnEnergy">GET /energy</button>
+        </div>
+        <pre class="code" id="resultBox" style="min-height:220px"></pre>
+
+        <hr class="sep"/>
+
+        <h3 class="section">Technical</h3>
+        <div class="row stack">
+            <div class="stack-item">
+                <div class="small" style="margin:6px 0">ID Token</div>
+                <div class="copy-area">
+                    <button class="btn btn-ghost copy-btn" id="copyId">Copy</button>
+                    <pre class="code" id="idTokenBox"></pre>
+                </div>
+            </div>
+
+            <div class="stack-item">
+                <div class="small" style="margin:6px 0">Introspection</div>
+                <div class="copy-area">
+                    <button class="btn btn-ghost copy-btn" id="copyIntro">Copy</button>
+                    <pre class="code" id="introspectBox"></pre>
+                </div>
+            </div>
+        </div>
+
+        <hr class="sep"/>
+        <a class="btn btn-ghost" href="/index.html">Start over</a>
+    </div>
+</main>
+
+<div class="footer">RECCo TPP Demo</div>
+
+<script src="/static/js/api.js"></script>
+</body>
+</html>

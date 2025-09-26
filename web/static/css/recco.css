@@ -1,0 +1,88 @@
+:root{
+    --blurple-900:#000a25;
+    --blurple-700:#001137;
+    --blurple-600:#011544;
+    --blurple-500:#021E5E;
+    --blurple-450:#2a2598;
+    --blurple-400:#3626B5;
+    --blurple-350:#4432d2;
+    --blurple-300:#4D38F5;
+    --blurple-200:#142E6A;
+    --blurple-150:#2b3f85;
+    --blurple-100:#3B589B;
+    --blurple-050:#7366E2;
+    --blurple-025:#EAE8FF;
+    --blurple-0:#F7F7FF;
+
+    --surface:#ffffff;
+    --surface-2:#fafbff;
+    --line:#e7e9f7;
+    --text:#0b1020;
+    --muted:#6b74a8;
+
+    --primary: var(--blurple-300);
+    --primary-strong: var(--blurple-400);
+}
+
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+    margin:0;
+    font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial;
+    color:var(--text);
+    background:linear-gradient(180deg,var(--blurple-0),#fff);
+}
+.header{
+    height:64px;background:var(--blurple-700);color:#fff;display:flex;align-items:center;justify-content:space-between;
+    padding:0 24px;box-shadow:0 2px 12px rgba(0,0,0,.15)
+}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{width:112px;height:24px;display:inline-block}
+.logo svg{height:24px}
+.badge{color:#dce3ff;font-size:12px;padding:4px 10px;border:1px solid #2a3577;border-radius:999px;background:rgba(255,255,255,.04)}
+.btn{appearance:none;border:0;border-radius:14px;background:var(--primary);color:#fff;padding:12px 18px;font-weight:650;cursor:pointer;box-shadow:0 6px 14px rgba(77,56,245,.25);transition:transform .15s ease,box-shadow .15s ease,background .15s ease}
+.btn:hover{background:var(--primary-strong);transform:translateY(-1px);box-shadow:0 10px 18px rgba(54,38,181,.28)}
+.btn-ghost{background:#f2f3ff;color:#2e3370;border:1px solid var(--line)}
+.btn-mini{background:#f7f7ff;color:var(--primary-strong);font-size:12px;padding:4px 10px;border-radius:8px;border:1px solid var(--line);cursor:pointer;position:absolute;top:6px;right:6px}
+.btn-mini:hover{background:#eef0ff}
+.container{max-width:1040px;margin:28px auto;padding:0 24px}
+.card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:24px;box-shadow:0 10px 30px rgba(2,30,94,.08)}
+.page-title{font-size:32px;line-height:1.2;margin:8px 0 4px;color:var(--blurple-600)}
+.subtitle{color:var(--muted);margin-bottom:16px}
+h3.section{font-size:18px;color:var(--blurple-500);margin:16px 0 8px}
+.row{display:flex;gap:24px;flex-wrap:wrap}
+.col{flex:1 1 380px}
+.checkbox-list label{display:flex;gap:10px;align-items:center;padding:10px 12px;border:1px solid var(--line);border-radius:12px;cursor:pointer;background:#fff}
+.checkbox-list label:hover{background:var(--blurple-0)}
+.checkbox-list input{accent-color:var(--primary)}
+.copy-wrap{position:relative}
+.code{background:#0b1020;color:#e9ecff;border-radius:14px;padding:16px;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,'Courier New',monospace;overflow:auto;font-size:12.5px;box-shadow:inset 0 0 0 1px rgba(255,255,255,.06)}
+.footer{text-align:center;color:#8a93c9;font-size:12px;padding:24px}
+hr.sep{border:0;height:1px;background:var(--line);margin:16px 0}
+.table{width:100%;border-collapse:separate;border-spacing:0;background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:0 2px 10px rgba(2,30,94,.05);table-layout:fixed}
+.table th,.table td{padding:12px 14px;border-bottom:1px solid var(--line);font-size:13px;word-break:break-word}
+.table th{background:#f6f7ff;text-align:left;color:#2e3570}
+.table tr:last-child td{border-bottom:0}
+.small{font-size:12px;color:#6b74a8}
+.helper{font-size:13px;color:#6b74a8}
+
+.select{min-width:260px;padding:10px 12px;border-radius:12px;border:1px solid var(--line);background:#fff;font-size:14px;color:#1d2355}
+.copy-area{position:relative}
+.copy-btn{position:absolute;top:8px;right:8px;font-size:12px;padding:6px 10px;border-radius:10px}
+.code.error{ box-shadow: inset 0 0 0 2px rgba(239,68,68,.35); }
+
+.row.stack {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+}
+
+.stack-item { min-width: 0; }
+.stack-item .copy-area { width: 100%; }
+.stack-item .code {
+    max-width: 100%;
+    overflow-x: auto;
+    white-space: pre;
+}
+
+.row > div { min-width: 0; }

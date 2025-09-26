@@ -1,0 +1,19 @@
+name: pre-commit
+on: [push]
+jobs:
+  pre-commit:
+    if: github.actor != 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-go@v6.0.0
+        with:
+          go-version-file: 'go.mod'
+
+      - name: pre-commit
+        uses: pre-commit/action@v3.0.1
+        env:
+          SKIP: no-commit-to-branch

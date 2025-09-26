@@ -1,0 +1,63 @@
+version: "2"
+linters:
+  default: none
+  enable:
+    - bodyclose
+    - copyloopvar
+    - dogsled
+    - errcheck
+    - gochecknoinits
+    - gocritic
+    - goprintffuncname
+    - gosec
+    - govet
+    - ineffassign
+    - misspell
+    - nakedret
+    - noctx
+    - nolintlint
+    - staticcheck
+    - unconvert
+    - whitespace
+  exclusions:
+    generated: lax
+    presets:
+      - comments
+      - common-false-positives
+      - legacy
+      - std-error-handling
+    rules:
+      - linters:
+          - bodyclose
+          - dupl
+          - funlen
+          - noctx
+        path: _test.go
+    paths:
+      - ui/app
+      - ui/static
+      - certs
+      - devcerts
+      - images
+      - .github
+      - /opt/homebrew/Cellar/go/*
+      - third_party$
+      - builtin$
+      - examples$
+formatters:
+  enable:
+    - gofmt
+    - goimports
+  exclusions:
+    generated: lax
+    paths:
+      - ui/app
+      - ui/static
+      - certs
+      - devcerts
+      - images
+      - .github
+      - /opt/homebrew/Cellar/go/*
+      - third_party$
+      - builtin$
+      - examples$
