@@ -137,7 +137,7 @@ func TestBuildAuthHandler(t *testing.T) {
 				assert.Equal(t, "test-client", response["client_id"])
 				assert.Equal(t, "https://app.example/callback", response["redirect_uri"])
 				assert.Equal(t, "openid customer", response["scope"])
-				assert.Equal(t, "code id_token", response["response_type"])
+				assert.Equal(t, "code", response["response_type"])
 				assert.Equal(t, "S256", response["code_challenge_method"])
 				assert.NotEmpty(t, response["code_challenge"])
 				assert.NotEmpty(t, response["state"])

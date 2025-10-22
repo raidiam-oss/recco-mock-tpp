@@ -56,6 +56,7 @@ type RuntimeSession struct {
 	Scope        string
 	Nonce        string
 	ResponseType string
+	ResponseMode string
 }
 
 type APIType string
