@@ -31,7 +31,7 @@ func TestBuildAuthParams(t *testing.T) {
 				assert.Equal(t, "test-client", output.ClientID)
 				assert.Equal(t, "https://app.example/callback", output.RedirectURI)
 				assert.Equal(t, "openid", output.Scope)
-				assert.Equal(t, "code id_token", output.ResponseType)
+				assert.Equal(t, "code", output.ResponseType)
 				assert.NotEmpty(t, output.State)
 				assert.NotEmpty(t, output.Nonce)
 				assert.NotEmpty(t, output.CodeChallenge)
@@ -44,7 +44,7 @@ func TestBuildAuthParams(t *testing.T) {
 			validateOutput: func(t *testing.T, sessionID string, output model.BuildAuthOutput) {
 				assert.NotEmpty(t, sessionID)
 				assert.Equal(t, "openid customer energy", output.Scope)
-				assert.Equal(t, "code id_token", output.ResponseType)
+				assert.Equal(t, "code", output.ResponseType)
 			},
 		},
 		{

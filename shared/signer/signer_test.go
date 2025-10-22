@@ -1,6 +1,7 @@
 package signer_test
 
 import (
+	"bytes"
 	"crypto/rand"
 	"crypto/rsa"
 	"crypto/x509"
@@ -57,23 +58,28 @@ func TestNewFromKeyFile(t *testing.T) {
 		{
 			name: "multiple_keys_in_file",
 			setupKeyFile: func(t *testing.T) string {
-				tmpFile := filepath.Join(t.TempDir(), "multi-key.pem")
-				f, err := os.Create(tmpFile)
-				require.NoError(t, err)
-				defer f.Close()
+				var buf bytes.Buffer
 
-				// Write first key (invalid format)
-				_, err = f.WriteString("-----BEGIN CERTIFICATE-----\nInvalidCertData\n-----END CERTIFICATE-----\n")
+				// Write first block (certificate - should be ignored)
+				certBlock := &pem.Block{
+					Type:  "CERTIFICATE",
+					Bytes: []byte("dummy certificate data that will be ignored"),
+				}
+				err := pem.Encode(&buf, certBlock)
 				require.NoError(t, err)
 
-				// Write second key (valid RSA key)
+				// Write second block (valid RSA private key)
 				key := generateRSAKey(t, 2048)
 				keyBytes := x509.MarshalPKCS1PrivateKey(key)
-				block := &pem.Block{
+				keyBlock := &pem.Block{
 					Type:  "RSA PRIVATE KEY",
 					Bytes: keyBytes,
 				}
-				err = pem.Encode(f, block)
+				err = pem.Encode(&buf, keyBlock)
+				require.NoError(t, err)
+
+				tmpFile := filepath.Join(t.TempDir(), "multi-key.pem")
+				err = os.WriteFile(tmpFile, buf.Bytes(), 0600)
 				require.NoError(t, err)
 
 				return tmpFile

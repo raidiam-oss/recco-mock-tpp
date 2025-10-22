@@ -37,7 +37,7 @@
         });
         const data = await res.json();
 
-        pResponseType.textContent = data.response_type || 'code id_token'
+        pResponseType.textContent = data.response_type || 'code';
         pClientId.textContent = data.client_id || '—';
         pRedirect.textContent = data.redirect_uri || '—';
         pCCMethod.textContent = data.code_challenge_method || 'S256';

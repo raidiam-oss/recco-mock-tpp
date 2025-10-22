@@ -19,7 +19,8 @@ import (
 
 // BuildAuthParams creates OAuth authorization parameters and returns a session ID
 func (t *TPP) BuildAuthParams(ctx context.Context, scopes []string) (sessionID string, out model.BuildAuthOutput, err error) {
-	responseType := "code id_token"
+	responseType := "code"
+	responseMode := "query"
 	scope := strings.Join(scopes, " ")
 	verifier, challenge := pkcePair()
 	state := uuid.NewString()
@@ -33,6 +34,7 @@ func (t *TPP) BuildAuthParams(ctx context.Context, scopes []string) (sessionID s
 		Scope:        scope,
 		Nonce:        nonce,
 		ResponseType: responseType,
+		ResponseMode: responseMode,
 	}
 	t.sessMu.Unlock()
 
@@ -51,6 +53,7 @@ func (t *TPP) BuildAuthParams(ctx context.Context, scopes []string) (sessionID s
 		"redirect_uri", t.cfg.RedirectURI,
 		"scopes", scope,
 		"response_type", responseType,
+		"response_mode", responseMode,
 	)
 
 	return sessionID, out, nil
@@ -78,6 +81,7 @@ func (t *TPP) FinalizeAuthURL(ctx context.Context, sessionID string) (string, er
 	// build request
 	requestObj := map[string]any{
 		"response_type":         sess.ResponseType,
+		"response_mode":         sess.ResponseMode,
 		"client_id":             t.cfg.ClientID,
 		"redirect_uri":          t.cfg.RedirectURI,
 		"scope":                 sess.Scope,
@@ -129,6 +133,7 @@ func (t *TPP) FinalizeAuthURL(ctx context.Context, sessionID string) (string, er
 	}
 	q := url.Values{}
 	q.Set("response_type", sess.ResponseType)
+	q.Set("response_mode", sess.ResponseMode)
 	q.Set("client_id", t.cfg.ClientID)
 	q.Set("redirect_uri", t.cfg.RedirectURI)
 	q.Set("scope", sess.Scope)
@@ -208,7 +213,7 @@ func (t *TPP) ExchangeToken(ctx context.Context, sessionID, code, state string) 
 		slog.InfoContext(ctx, "token introspection ok")
 	}
 
-	slog.InfoContext(ctx, "token exchange ok")
+	slog.InfoContext(ctx, "FAPI 2.0 compliant token exchange completed")
 	return tokens, nil
 }
 
