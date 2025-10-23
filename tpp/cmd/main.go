@@ -5,6 +5,7 @@ import (
 	"log/slog"
 	"net/http"
 	"os"
+	"strings"
 	"time"
 
 	"github.com/raidiam/recco-mock-tpp/shared/logging"
@@ -59,9 +60,20 @@ func main() {
 		MaxHeaderBytes:    1 << 20,
 	}
 
-	slog.InfoContext(ctx, "TPP service starting", "addr", cfg.ListenAddr, "https", true)
-	if err := srv.ListenAndServeTLS(cfg.DevTLSCertFile, cfg.DevTLSKeyFile); err != nil {
-		slog.ErrorContext(ctx, "TPP service stopped", "error", err)
-		os.Exit(1)
+	// Determine whether to use TLS based on the frontend origin protocol
+	useTLS := strings.HasPrefix(cfg.FrontendOrigin, "https://")
+
+	if useTLS {
+		slog.InfoContext(ctx, "TPP service starting", "addr", cfg.ListenAddr, "https", true)
+		if err := srv.ListenAndServeTLS(cfg.DevTLSCertFile, cfg.DevTLSKeyFile); err != nil {
+			slog.ErrorContext(ctx, "TPP service stopped", "error", err)
+			os.Exit(1)
+		}
+	} else {
+		slog.InfoContext(ctx, "TPP service starting", "addr", cfg.ListenAddr, "https", false)
+		if err := srv.ListenAndServe(); err != nil {
+			slog.ErrorContext(ctx, "TPP service stopped", "error", err)
+			os.Exit(1)
+		}
 	}
 }

@@ -4,6 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log/slog"
+	"net/url"
 	"os"
 	"time"
 
@@ -29,8 +30,6 @@ func LoadConfig() (*model.Config, error) {
 		"MTLS_CA_FILE",
 		"SIGNING_KEY_FILE",
 		"SIGNING_KEY_ID",
-		"DEV_TLS_CERT_FILE",
-		"DEV_TLS_KEY_FILE",
 	}
 
 	for _, envVar := range requiredEnvVars {
@@ -41,14 +40,17 @@ func LoadConfig() (*model.Config, error) {
 	}
 
 	// Load environment variables with defaults
-	listenAddr := os.Getenv("LISTEN_ADDR")
-	if listenAddr == "" {
-		listenAddr = ":8080"
-	}
 	frontendOrigin := os.Getenv("APP_ORIGIN")
 	if frontendOrigin == "" {
 		frontendOrigin = "http://localhost:8080"
 	}
+
+	// Infer listen address from APP_ORIGIN
+	parsedURL, err := url.Parse(frontendOrigin)
+	if err != nil {
+		return nil, fmt.Errorf("failed to parse APP_ORIGIN: %w", err)
+	}
+	listenAddr := ":" + parsedURL.Port()
 
 	return &model.Config{
 		WellKnownURL:    os.Getenv("WELL_KNOWN_URL"),

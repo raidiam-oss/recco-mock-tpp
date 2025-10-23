@@ -34,7 +34,6 @@ func TestLoadConfig(t *testing.T) {
 					"SIGNING_KEY_ID":    "signing-key-1",
 					"DEV_TLS_CERT_FILE": "/path/to/dev-cert.pem",
 					"DEV_TLS_KEY_FILE":  "/path/to/dev-key.pem",
-					"LISTEN_ADDR":       ":9090",
 					"APP_ORIGIN":        "https://frontend.example",
 				})
 			},
@@ -51,7 +50,6 @@ func TestLoadConfig(t *testing.T) {
 				assert.Equal(t, "signing-key-1", cfg.SigningKeyID)
 				assert.Equal(t, "/path/to/dev-cert.pem", cfg.DevTLSCertFile)
 				assert.Equal(t, "/path/to/dev-key.pem", cfg.DevTLSKeyFile)
-				assert.Equal(t, ":9090", cfg.ListenAddr)
 				assert.Equal(t, "https://frontend.example", cfg.FrontendOrigin)
 			},
 		},
@@ -70,7 +68,7 @@ func TestLoadConfig(t *testing.T) {
 					"SIGNING_KEY_ID":    "signing-key-1",
 					"DEV_TLS_CERT_FILE": "/path/to/dev-cert.pem",
 					"DEV_TLS_KEY_FILE":  "/path/to/dev-key.pem",
-					// LISTEN_ADDR and APP_ORIGIN not set - should use defaults
+					// APP_ORIGIN not set - should use defaults
 				})
 			},
 			wantErr: false,
@@ -94,7 +92,6 @@ func TestLoadConfig(t *testing.T) {
 					"SIGNING_KEY_ID":    "signing-key-1",
 					"DEV_TLS_CERT_FILE": "/path/to/dev-cert.pem",
 					"DEV_TLS_KEY_FILE":  "/path/to/dev-key.pem",
-					"LISTEN_ADDR":       "", // Empty string should use default
 					"APP_ORIGIN":        "", // Empty string should use default
 				})
 			},
@@ -193,31 +190,6 @@ func TestLoadConfig(t *testing.T) {
 			},
 			wantErr:         true,
 			wantErrContains: "missing required environment variable:",
-		},
-		{
-			name: "custom_listen_addr_formats",
-			setupEnv: func(t *testing.T) {
-				setTestEnvVars(t, map[string]string{
-					"WELL_KNOWN_URL":    "https://auth.example/.well-known/openid-configuration",
-					"CLIENT_ID":         "test-client",
-					"REDIRECT_URI":      "https://app.example/callback",
-					"PARTICIPANTS_URL":  "https://directory.example/participants",
-					"MTLS_CERT_FILE":    "/path/to/cert.pem",
-					"MTLS_KEY_FILE":     "/path/to/key.pem",
-					"MTLS_CA_FILE":      "/path/to/ca.pem",
-					"SIGNING_KEY_FILE":  "/path/to/signing.pem",
-					"SIGNING_KEY_ID":    "signing-key-1",
-					"DEV_TLS_CERT_FILE": "/path/to/dev-cert.pem",
-					"DEV_TLS_KEY_FILE":  "/path/to/dev-key.pem",
-					"LISTEN_ADDR":       "localhost:3000",
-					"APP_ORIGIN":        "https://custom.frontend.com",
-				})
-			},
-			wantErr: false,
-			validateConfig: func(t *testing.T, cfg *model.Config) {
-				assert.Equal(t, "localhost:3000", cfg.ListenAddr)
-				assert.Equal(t, "https://custom.frontend.com", cfg.FrontendOrigin)
-			},
 		},
 	}
 
@@ -346,7 +318,7 @@ func clearTestEnvVars(t *testing.T) {
 		"MTLS_CERT_FILE", "MTLS_KEY_FILE", "MTLS_CA_FILE",
 		"SIGNING_KEY_FILE", "SIGNING_KEY_ID",
 		"DEV_TLS_CERT_FILE", "DEV_TLS_KEY_FILE",
-		"LISTEN_ADDR", "APP_ORIGIN",
+		"APP_ORIGIN",
 	}
 	for _, envVar := range requiredEnvVars {
 		os.Unsetenv(envVar)
