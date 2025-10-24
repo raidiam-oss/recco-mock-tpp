@@ -24,6 +24,23 @@
         resultBox.textContent = JSON.stringify(ordered, null, 2);
     }
 
+    function base64UrlDecode(str){
+        let s = str.replace(/-/g,'+').replace(/_/g,'/');
+        const pad = s.length % 4;
+        if (pad) s += '='.repeat(4 - pad);
+        try { return atob(s); } catch { return ''; }
+    }
+
+    function renderIdToken(idToken){
+        try {
+            const [h,p] = idToken.split('.');
+            const payload = JSON.parse(base64UrlDecode(p) || '{}');
+            idTokenBox.textContent = JSON.stringify(payload, null, 2);
+        } catch (e) {
+            idTokenBox.textContent = JSON.stringify({ error: 'Failed to decode id_token', details: String(e) }, null, 2);
+        }
+    }
+
     async function exchangeTokenIfNeeded(){
         if(!code || !state) return;
         const res = await fetch('/auth/token', {
@@ -39,13 +56,7 @@
             return;
         }
 
-        if (data.id_token_payload) {
-            idTokenBox.textContent = JSON.stringify(data.id_token_payload, null, 2);
-        } else if (data.id_token_error) {
-            idTokenBox.textContent = JSON.stringify({ error: data.id_token_error }, null, 2);
-        } else {
-            idTokenBox.textContent = JSON.stringify({ note: 'no ID token data available' }, null, 2);
-        }
+        if (data.id_token) renderIdToken(data.id_token);
 
         if (data.introspection) {
             introspectBox.textContent = JSON.stringify(data.introspection, null, 2);

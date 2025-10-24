@@ -23,15 +23,14 @@ WORKDIR /app
 COPY --from=builder /bin/tpp-server /app/tpp-server
 COPY --from=builder /src/web /app/web
 COPY certs/ ./certs/
-COPY devcerts/ ./devcerts/
+COPY devcerts/recco-tpp.* ./devcerts/
 
 RUN mkdir -p /run/mtls /run/devcerts
 
-ENV LISTEN_ADDR=:8443 \
-    APP_ORIGIN=https://recco-tpp.test:8443 \
-    REDIRECT_URI=https://recco-tpp.test:8443/api \
+ENV APP_ORIGIN=http://localhost:8080 \
+    REDIRECT_URI=http://localhost:8080/api \
     WELL_KNOWN_URL=https://auth.directory.recco.raidiam.io/.well-known/openid-configuration \
-    CLIENT_ID=https://rp.directory.recco.raidiam.io/openid_relying_party/1575bb8f-20ef-46ca-ac3f-21dfb35eaa7b \
+    CLIENT_ID=<client id goes here> \
     PARTICIPANTS_URL=https://data.directory.recco.raidiam.io/participants \
     DEV_TLS_CERT_FILE=/run/devcerts/recco-tpp.test.pem \
     DEV_TLS_KEY_FILE=/run/devcerts/recco-tpp.test-key \
@@ -40,6 +39,6 @@ ENV LISTEN_ADDR=:8443 \
     MTLS_CA_FILE=/run/mtls/ca.pem \
     SIGNING_KEY_FILE=/run/mtls/server.key
 
-EXPOSE 8443
+EXPOSE 8443 8080
 
 CMD [ "/app/tpp-server" ]
